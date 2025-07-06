@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Philippines Holiday Calendar 2025</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root {
+            --primary: #0038A8;
+            --secondary: #CE1126;
+            --accent: #FCD116;
+            --text: #333333;
+            --light: #F8F9FA;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f7fa;
+            color: var(--text);
+        }
+        
+        .calendar-header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+        }
+        
+        .holiday {
+            background-color: rgba(206, 17, 38, 0.1);
+            border-left: 3px solid var(--secondary);
+        }
+        
+        .today {
+            background-color: var(--accent);
+            color: var(--text);
+            font-weight: bold;
+        }
+        
+        .weekend {
+            color: var(--secondary);
+        }
+        
+        .month-name {
+            color: var(--primary);
+        }
+        
+        .holiday-tag {
+            background-color: var(--secondary);
+            color: white;
+        }
+        
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 8px;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .animate-fade-in {
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+    </style>
+</head>
+<body class="min-h-screen py-8 px-4">
+    <div class="max-w-4xl mx-auto">
+        <!-- Header -->
+        <div class="text-center mb-8">
+            <h1 class="text-4xl font-bold mb-2 text-[#0038A8]">Philippines Holiday Calendar 2025</h1>
+            <p class="text-lg text-gray-600">All official national holidays and special days</p>
+            <div class="mt-4 flex justify-center gap-2">
+                <span class="inline-block w-4 h-4 rounded-full bg-[#0038A8]"></span>
+                <span class="inline-block w-4 h-4 rounded-full bg-[#CE1126]"></span>
+                <span class="inline-block w-4 h-4 rounded-full bg-[#FCD116]"></span>
+            </div>
+        </div>
+
+        <!-- Year Navigation -->
+        <div class="flex justify-between items-center mb-6">
+            <button id="prev-year" class="px-4 py-2 bg-gray-200 rounded-lg hover:bg-gray-300 transition">← 2024</button>
+            <h2 id="current-year" class="text-3xl font-bold text-center">2025</h2>
+            <button id="next-year" class="px-4 py-2 bg-gray-200 rounded-lg hover:bg-gray-300 transition">2026 →</button>
+        </div>
+
+        <!-- Month Selector -->
+        <div class="mb-6">
+            <select id="month-selector" class="w-full p-3 border rounded-lg bg-white shadow-sm">
+                <option value="0">January</option>
+                <option value="1">February</option>
+                <option value="2">March</option>
+                <option value="3">April</option>
+                <option value="4">May</option>
+                <option value="5">June</option>
+                <option value="6">July</option>
+                <option value="7">August</option>
+                <option value="8">September</option>
+                <option value="9">October</option>
+                <option value="10">November</option>
+                <option value="11">December</option>
+            </select>
+        </div>
+
+        <!-- Calendar -->
+        <div id="calendar-container" class="bg-white rounded-xl shadow-lg overflow-hidden animate-fade-in">
+            <div id="month-header" class="calendar-header p-4 text-center">
+                <h3 class="text-2xl font-semibold">January 2025</h3>
+            </div>
+            
+            <!-- Day names -->
+            <div class="calendar-grid bg-gray-100 p-2 border-b">
+                <div class="text-center font-medium">Sun</div>
+                <div class="text-center font-medium">Mon</div>
+                <div class="text-center font-medium">Tue</div>
+                <div class="text-center font-medium">Wed</div>
+                <div class="text-center font-medium">Thu</div>
+                <div class="text-center font-medium">Fri</div>
+                <div class="text-center font-medium">Sat</div>
+            </div>
+            
+            <!-- Calendar grid -->
+            <div id="calendar-grid" class="calendar-grid p-2 gap-0">
+                <!-- Days will be inserted here by JavaScript -->
+            </div>
+        </div>
+
+        <!-- Holidays List -->
+        <div id="holidays-container" class="mt-8 bg-white rounded-xl shadow-lg overflow-hidden animate-fade-in">
+            <div class="calendar-header p-4">
+                <h3 class="text-2xl font-semibold text-white">Philippines Holidays 2025</h3>
+            </div>
+            <div id="holidays-list" class="divide-y divide-gray-200">
+                <!-- Holidays will be inserted here by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Philippines National Holidays for 2025
+        const holidays = [
+            { date: '2025-01-01', name: 'New Year\'s Day', type: 'Regular Holiday' },
+            { date: '2025-04-09', name: 'Araw ng Kagitingan', type: 'Regular Holiday' },
+            { date: '2025-04-17', name: 'Maundy Thursday', type: 'Regular Holiday' },
+            { date: '2025-04-18', name: 'Good Friday', type: 'Regular Holiday' },
+            { date: '2025-05-01', name: 'Labor Day', type: 'Regular Holiday' },
+            { date: '2025-06-12', name: 'Independence Day', type: 'Regular Holiday' },
+            { date: '2025-08-25', name: 'Ninoy Aquino Day', type: 'Special Non-working Holiday' },
+            { date: '2025-08-31', name: 'National Heroes Day', type: 'Regular Holiday' },
+            { date: '2025-11-01', name: 'All Saints\' Day', type: 'Special Non-working Holiday' },
+            { date: '2025-11-30', name: 'Bonifacio Day', type: 'Regular Holiday' },
+            { date: '2025-12-25', name: 'Christmas Day', type: 'Regular Holiday' },
+            { date: '2025-12-30', name: 'Rizal Day', type: 'Regular Holiday' },
+            { date: '2025-12-31', name: 'New Year\'s Eve', type: 'Special Non-working Holiday' }
+        ];
+
+        // Current date
+        const today = new Date();
+        let currentYear = 2025;
+        let currentMonth = today.getMonth();
+
+        // DOM elements
+        const monthHeader = document.getElementById('month-header');
+        const calendarGrid = document.getElementById('calendar-grid');
+        const holidaysList = document.getElementById('holidays-list');
+        const monthSelector = document.getElementById('month-selector');
+        const currentYearElement = document.getElementById('current-year');
+        const prevYearBtn = document.getElementById('prev-year');
+        const nextYearBtn = document.getElementById('next-year');
+
+        // Initialize calendar
+        function initCalendar() {
+            renderCalendar(currentYear, currentMonth);
+            renderHolidaysList();
+            monthSelector.value = currentMonth;
+            currentYearElement.textContent = currentYear;
+            
+            // Set up event listeners
+            monthSelector.addEventListener('change', (e) => {
+                currentMonth = parseInt(e.target.value);
+                renderCalendar(currentYear, currentMonth);
+            });
+            
+            prevYearBtn.addEventListener('click', () => {
+                currentYear--;
+                currentYearElement.textContent = currentYear;
+                prevYearBtn.textContent = `← ${currentYear - 1}`;
+                nextYearBtn.textContent = `${currentYear + 1} →`;
+                renderCalendar(currentYear, currentMonth);
+                renderHolidaysList();
+            });
+            
+            nextYearBtn.addEventListener('click', () => {
+                currentYear++;
+                currentYearElement.textContent = currentYear;
+                prevYearBtn.textContent = `← ${currentYear - 1}`;
+                nextYearBtn.textContent = `${currentYear + 1} →`;
+                renderCalendar(currentYear, currentMonth);
+                renderHolidaysList();
+            });
+        }
+
+        // Render calendar for a specific month and year
+        function renderCalendar(year, month) {
+            // Update month header
+            const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 
+                               'July', 'August', 'September', 'October', 'November', 'December'];
+            monthHeader.innerHTML = `<h3 class="text-2xl font-semibold">${monthNames[month]} ${year}</h3>`;
+            
+            // Get first day of month and total days in month
+            const firstDay = new Date(year, month, 1).getDay();
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
+            
+            // Clear previous calendar
+            calendarGrid.innerHTML = '';
+            
+            // Add empty cells for days before the first day of the month
+            for (let i = 0; i < firstDay; i++) {
+                const emptyCell = document.createElement('div');
+                emptyCell.className = 'p-2 h-24 border border-gray-100 bg-gray-50';
+                calendarGrid.appendChild(emptyCell);
+            }
+            
+            // Add cells for each day of the month
+            for (let day = 1; day <= daysInMonth; day++) {
+                const date = new Date(year, month, day);
+                const dateString = formatDate(date);
+                const isToday = isSameDay(date, today);
+                const isWeekend = date.getDay() === 0 || date.getDay() === 6;
+                
+                const dayCell = document.createElement('div');
+                dayCell.className = `p-2 h-24 border border-gray-100 flex flex-col ${isWeekend ? 'weekend' : ''} ${isToday ? 'today' : ''}`;
+                
+                // Check if this day is a holiday
+                const holiday = holidays.find(h => h.date === dateString);
+                if (holiday) {
+                    dayCell.classList.add('holiday');
+                }
+                
+                // Day number
+                const dayNumber = document.createElement('span');
+                dayNumber.className = 'font-medium';
+                dayNumber.textContent = day;
+                dayCell.appendChild(dayNumber);
+                
+                // Add holiday indicator if applicable
+                if (holiday) {
+                    const holidayIndicator = document.createElement('span');
+                    holidayIndicator.className = 'text-xs mt-1 holiday-tag px-1 py-0.5 rounded';
+                    holidayIndicator.textContent = holiday.name;
+                    dayCell.appendChild(holidayIndicator);
+                }
+                
+                calendarGrid.appendChild(dayCell);
+            }
+        }
+
+        // Render the list of holidays
+        function renderHolidaysList() {
+            holidaysList.innerHTML = '';
+            
+            // Sort holidays by date
+            const sortedHolidays = [...holidays].sort((a, b) => new Date(a.date) - new Date(b.date));
+            
+            sortedHolidays.forEach(holiday => {
+                const holidayDate = new Date(holiday.date);
+                const holidayItem = document.createElement('div');
+                holidayItem.className = 'p-4 hover:bg-gray-50 transition';
+                
+                const dateString = holidayDate.toLocaleDateString('en-US', { 
+                    weekday: 'long', 
+                    month: 'long', 
+                    day: 'numeric', 
+                    year: 'numeric' 
+                });
+                
+                holidayItem.innerHTML = `
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <h4 class="font-semibold text-lg">${holiday.name}</h4>
+                            <p class="text-gray-600">${dateString}</p>
+                        </div>
+                        <span class="px-3 py-1 rounded-full text-sm ${holiday.type === 'Regular Holiday' ? 'bg-blue-100 text-blue-800' : 'bg-purple-100 text-purple-800'}">
+                            ${holiday.type}
+                        </span>
+                    </div>
+                `;
+                
+                holidaysList.appendChild(holidayItem);
+            });
+        }
+
+        // Helper functions
+        function formatDate(date) {
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const day = String(date.getDate()).padStart(2, '0');
+            return `${year}-${month}-${day}`;
+        }
+
+        function isSameDay(date1, date2) {
+            return date1.getFullYear() === date2.getFullYear() &&
+                   date1.getMonth() === date2.getMonth() &&
+                   date1.getDate() === date2.getDate();
+        }
+
+        // Initialize the calendar when the page loads
+        document.addEventListener('DOMContentLoaded', initCalendar);
+    </script>
+</body>
+</html>
